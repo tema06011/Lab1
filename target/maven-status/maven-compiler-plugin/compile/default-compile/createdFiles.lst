@@ -1,1 +1,11 @@
-MainServlet.class
+entity\Category.class
+entity\User.class
+dao\HotelDAO.class
+entity\Booking.class
+entity\Room.class
+entity\PaymentType.class
+entity\Hotel.class
+dao\impl\HotelDAOImpl.class
+entity\Feedback.class
+util\DatabaseConnection.class
+servlet\MainPageServlet.class
