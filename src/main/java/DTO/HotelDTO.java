@@ -1,33 +1,15 @@
-package entity;
+package DTO;
 
-public class Hotel {
+public class HotelDTO {
     private long id;
-    private String name;
+    private String hotelName;
     private int starAmount;
-    private Long cityID;
+    private String cityName;
     private String street;
     private int numberOfBuilding;
     private String phoneNumber;
     private String photo;
     private String about;
-    private long length;
-    private long width;
-
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
 
     public long getId() {
         return id;
@@ -37,12 +19,12 @@ public class Hotel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getHotelName() {
+        return hotelName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
     }
 
     public int getStarAmount() {
@@ -53,12 +35,12 @@ public class Hotel {
         this.starAmount = starAmount;
     }
 
-    public Long getCityID() {
-        return cityID;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setCityID(Long cityID) {
-        this.cityID = cityID;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public String getStreet() {
@@ -83,5 +65,21 @@ public class Hotel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 }

@@ -1,0 +1,78 @@
+
+body {
+    background: url(../images/7034-r1.jpg) no-repeat center center fixed;
+    width: 100%;
+    height: 100%;
+    background-size: 100%;
+}
+
+.nameHotel {
+    text-align: right;
+    font-variant: small-caps;
+    font-weight: bold;
+    font-size: 70px;
+    padding-top: 10px;
+    margin-right: 400px;
+}
+
+.starr {
+    float:right;
+    margin-right: 430px;
+}
+
+.pic {
+    float: left;
+    margin-top: 20px;
+    width: 500px;
+    height: 300px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+    margin-right: 60px;
+}
+
+.aboutHotel {
+    margin-top: 90px;
+    width: 70%;
+    font-size: 25px;
+    text-align: left;
+    margin-left: 430px;
+    height: 250px;
+}
+
+.adress {
+       font-size: 30px;
+    margin-left: 170px;
+}
+
+.adressHotel {
+    font-size: 40px;
+    padding-bottom: 30px;
+    padding-top: 10px;
+    padding-left: 130px;
+}
+.number {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-left: 170px;
+}
+.table {
+    padding: 10px;
+    border: 5px solid black;
+    border-collapse: collapse;
+    width: 300px;
+
+}
+.th{
+    padding: 10px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.td {
+    padding: 10px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.price{
+padding-bottom: 200px;
+    padding-left: 450px;
+}

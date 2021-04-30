@@ -4,6 +4,17 @@ public class Room {
     private long id;
     private long hotelID;
     private long categoryID;
+    private int cost;
+
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public long getId() {
         return id;
@@ -27,5 +38,12 @@ public class Room {
 
     public void setCategoryID(long categoryID) {
         this.categoryID = categoryID;
+    }
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 }

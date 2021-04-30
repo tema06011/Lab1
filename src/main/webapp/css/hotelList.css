@@ -1,0 +1,88 @@
+
+
+
+/*.box div {*/
+/*    width: 90px;*/
+/*    display: inline-block;*/
+/*    border: 1px solid black*/
+/*}*/
+
+
+
+/*.form-group:last-child {*/
+/*    margin-right: 0;*/
+/*    margin-left: 0;*/
+/*}*/
+
+
+
+/*form.example button {*/
+/*    float: left;*/
+/*    width: 44%;*/
+/*    height: 12%;*/
+/*    padding: 0px;*/
+/*    background: #2196F3;*/
+/*    color: white;*/
+/*    font-size: 40px;*/
+/*    border: 1px solid grey;*/
+/*    border-left: none; !* Prevent double borders *!*/
+/*    cursor: pointer;*/
+/*}*/
+body {
+    background: url(../images/unnamed.jpg)
+    no-repeat center center fixed;
+    /*position: fixed; top: 0; left: 0;*/
+    width: 100%;
+    height: 100%;
+    background-size: 100%;
+}
+.zagolovok {
+    text-align: left;
+    font-variant: small-caps;
+    font-weight: bold;
+    font-size: 50px;
+    margin-left: 30px;
+    padding-top: 60px;
+
+
+}
+
+.starCount {
+    text-align: left;
+    font-variant: small-caps;
+    font-weight: bold;
+    font-size: 30px;
+    margin-left: 30px;
+
+
+}
+
+.pic {
+    float: left;
+    padding-right: 50px;
+    padding-left: 150px;
+    padding-top: 50px;
+    width: 500px;
+    height: 300px;
+}
+
+.btn-info {
+    float: right;
+    background-color: #2196F3;
+    margin-top: 20px;
+    width: 150px;
+    height: 40px;
+    margin-right: 50px;
+}
+
+.about {
+    margin-top: 10px;
+    font-size: 15px;
+    width: 80%;
+    vertical-align: top; /* Выравнивание по верхнему краю */
+}
+.shadoww{
+    box-shadow: 0 0 7px;
+    height: 350px;
+}
+

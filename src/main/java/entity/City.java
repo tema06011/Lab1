@@ -1,6 +1,6 @@
 package entity;
 
-public class Category {
+public class City {
     private long id;
     private String name;
 
@@ -19,6 +19,4 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
-
-
 }

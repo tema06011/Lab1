@@ -9,10 +9,36 @@ public class User {
     private String name;
     private String  surname;
     private LocalDate birthday;
-    private String city;
+    private Long cityID;
     private String street;
     private int numberOfBuilding;
     private String phoneNumber;
+    private String login;
+    private String password;
+
+    public Long getCityID() {
+        return cityID;
+    }
+
+    public void setCityID(Long cityID) {
+        this.cityID = cityID;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public long getId() {
         return id;
@@ -54,13 +80,6 @@ public class User {
         this.birthday = birthday;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 
     public String getStreet() {
         return street;
