@@ -13,7 +13,7 @@ public class RoomDAOImpl implements RoomDAO {
     private final Connection connection = DatabaseConnection.getConnection();
     @Override
     public List<Room> roomList(long id) throws SQLException {
-        Statement statement = connection.createStatement();
+            Statement statement = connection.createStatement();
         String querySql = "SELECT category.name as categoryName, room.cost FROM room join hotel on hotel.id=room.hotel_id " +
                 "join category on category.id=room.category_id where hotel.id=?";
         PreparedStatement prstatment = connection.prepareStatement(querySql);

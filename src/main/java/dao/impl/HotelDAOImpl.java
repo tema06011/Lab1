@@ -74,6 +74,22 @@ public class HotelDAOImpl implements HotelDAO {
         }
         return hotelDTO;
     }
+
+    @Override
+    public Hotel getCoordination(long id) throws SQLException {
+        Statement statement = connection.createStatement();
+        String querySql = "SELECT lenght,width FROM hotel where hotel.id=? ";
+        PreparedStatement prstatment = connection.prepareStatement(querySql);
+        prstatment.setLong(1, id);
+        ResultSet resultSet = prstatment.executeQuery();
+        Hotel hotelCoordinats=new Hotel();
+        while (resultSet.next()) {
+            hotelCoordinats.setLength(resultSet.getFloat("lenght"));
+            hotelCoordinats.setWidth(resultSet.getFloat("width"));
+        }
+        return hotelCoordinats;
+    }
+
 }
 
 

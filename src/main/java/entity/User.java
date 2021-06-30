@@ -1,14 +1,14 @@
 package entity;
 
-import java.time.LocalDate;
 
+import java.util.Date;
 
 public class User {
     private long id;
     private String lastname;
     private String name;
     private String  surname;
-    private LocalDate birthday;
+    private Date birthday;
     private Long cityID;
     private String street;
     private int numberOfBuilding;
@@ -72,11 +72,11 @@ public class User {
         this.surname = surname;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
+    public java.sql.Date getBirthday() {
+        return (java.sql.Date) birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -104,4 +104,6 @@ public class User {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+
 }

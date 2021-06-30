@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface HotelDAO {
-    Hotel findByID(long id) throws SQLException;
+   public  Hotel findByID(long id) throws SQLException;
     public List<Hotel> hotelList(String name) throws SQLException;
     public HotelDTO idHotels(long id) throws SQLException;
+    public Hotel getCoordination(long id) throws SQLException;
 }

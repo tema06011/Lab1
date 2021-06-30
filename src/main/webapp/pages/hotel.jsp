@@ -45,24 +45,115 @@
 <h4 class="aboutHotel">${hotelDTO.about}</h4>
 <h5 class="adressHotel">You can find us:</h5>
 <h2 class="adress">${hotelDTO.cityName}, ${hotelDTO.street} ${hotelDTO.numberOfBuilding}</h2>
-<h3 class="number">You can call us:  <br>
-<a  href="tel:${hotelDTO.phoneNumber}">${hotelDTO.phoneNumber}</a>
+<h3 class="number">You can call us: <br>
+    <a href="tel:${hotelDTO.phoneNumber}">${hotelDTO.phoneNumber}</a>
 </h3>
-<h6 class="price">
-<table class="table">
-    <tr>
-        <th class="th">Category</th>
-        <th class="th">Price</th>
-    </tr>
+<div>
+    <h6 class="price">
+        <table class="table">
+            <tr>
+                <th class="th">Category</th>
+                <th class="th">Price</th>
+            </tr>
 
-    <c:forEach var="room" items="${requestScope.roomList}">
-        <tr>
-            <td class="td">${room.category.name}</td>
-            <td class="td">${room.cost}</td>
-        </tr>
-    </c:forEach>
-</table>
-</h6>
-<jsp:include page="footer.jsp"/>
+            <c:forEach var="room" items="${requestScope.roomList}">
+                <tr>
+                    <td class="td">${room.category.name}</td>
+                    <td class="td">${room.cost}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </h6>
+    <!-- Trigger/Open The Modal -->
+    <button class="button_modal" id="myBtnBook">Book</button>
+
+    <!-- The Modal -->
+    <div id="myModalBook" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>
+            <form method="POST" action="/hotel">
+                <label for="lname">Last name:</label><br>
+                <input type="text" id="lname" name="lname"><br><br>
+                <label for="fname">First name:</label><br>
+                <input type="text" id="fname" name="fname"><br>
+                <label for="surname">Surname:</label><br>
+                <input type="text" id="surname" name="surname"><br>
+                <label>Date of entry</label>
+                <input type="date" name="entry" max="3000-12-31"
+                       min="1000-01-01" class="form-control">
+                <label>Date of departure</label>
+                <input type="date" name="departure" min="1000-01-01"
+                       max="3000-12-31" class="form-control">
+                <label>Select Payment Type:</label><br>
+              <select name="paymentType" class="form-control">
+                  <c:forEach var="paymentType" items="${requestScope.paymentList}">
+                      <option>${paymentType.name}</option>
+                  </c:forEach>
+              </select>
+                <label>Select category:</label><br>
+                <select name="category" class="form-control">
+                    <c:forEach var="room" items="${requestScope.roomList}">
+                        <option>${room.category.name}--->${room.cost}</option>
+                    </c:forEach>
+                </select>
+                <input type="submit" value="Book">
+
+            </form>
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModalBook");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtnBook");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</div>
+<div class="feedback">
+<form action="/hotel" method="post">
+    <p class="feedback_head"><b>Enter your feedback:</b></p>
+    <div class="rating-area">
+        <input type="radio" id="star-5" name="rating" value="5">
+        <label for="star-5" title="Оценка «5»"></label>
+        <input type="radio" id="star-4" name="rating" value="4">
+        <label for="star-4" title="Оценка «4»"></label>
+        <input type="radio" id="star-3" name="rating" value="3">
+        <label for="star-3" title="Оценка «3»"></label>
+        <input type="radio" id="star-2" name="rating" value="2">
+        <label for="star-2" title="Оценка «2»"></label>
+        <input type="radio" id="star-1" name="rating" value="1">
+        <label for="star-1" title="Оценка «1»"></label>
+    </div>
+    <p><textarea rows="10" cols="45" name="text"></textarea></p>
+    <p><input type="submit" value="Send"></p>
+</form>
+</div>
+<!-- <jsp:include page="footer.jsp"/>-->
 </body>
 </html>

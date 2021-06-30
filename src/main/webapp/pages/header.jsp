@@ -2,12 +2,14 @@
 <html>
 <head>
     <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
 <div class="container header" >
 
     <a href="./index.html"> <img src="../images/mylogo2.png" width="85" height="65" alt="Logo" class="rightpic"></a>
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
 
         </a>
@@ -21,10 +23,12 @@
         </ul>
 
         <div class="col-md-3 text-end">
-            <button type="button" class="btn btn-outline-primary me-2">Login</button>
-            <button type="button" class="btn btn-primary">Sign-up</button>
+            <button type="button"  class="btn btn-outline-primary me-2">Login</button>
+            <a href="/registration"><button id="singUp" type ="button" class="btn btn-primary">Sing-up</button></a>
         </div>
-    </header>
+
+    </div>
 </div>
+
 </body>
 </html>

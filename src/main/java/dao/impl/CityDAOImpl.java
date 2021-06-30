@@ -4,12 +4,10 @@ import dao.CityDAO;
 import entity.City;
 
 
+import entity.Hotel;
 import util.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,5 +25,20 @@ public class CityDAOImpl implements CityDAO {
             cityList.add(city);
         }
         return cityList;
+    }
+    public Long city_id(String name) throws SQLException{
+
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        String querySql = "SELECT id FROM city where city.name=?";
+        PreparedStatement prstatment = connection.prepareStatement(querySql);
+        prstatment.setString(1,name);
+        ResultSet resultSet = prstatment.executeQuery();
+         Long cityId=null;
+
+        while (resultSet.next()) {
+          cityId= resultSet.getLong("city_id");
+        }
+        return cityId;
     }
 }
