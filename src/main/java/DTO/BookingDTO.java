@@ -1,13 +1,10 @@
 package DTO;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class BookingDTO {
     private long id;
-    private String lastname;
-    private String userName;
-    private String  surname;
+    private long userId;
     private Date start;
     private Date end;
     private String paymentTypeID;
@@ -23,28 +20,20 @@ public class BookingDTO {
         this.id = id;
     }
 
-    public String getLastname() {
-        return lastname;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getPaymentTypeID() {
+        return paymentTypeID;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setPaymentTypeID(String paymentTypeID) {
+        this.paymentTypeID = paymentTypeID;
     }
 
     public Date getStart() {

@@ -1,7 +1,6 @@
 package entity;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Booking {
     private long id;
@@ -10,6 +9,15 @@ public class Booking {
     private long userID;
     private long paymentTypeID;
     private Date start;
+
+    public Date getStart() {
+        return start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
     private Date end;
 
     public void setStart(Date start) {

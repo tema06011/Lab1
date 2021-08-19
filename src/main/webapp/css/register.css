@@ -1,9 +1,11 @@
-body{
-    background: #eeeeee;
+body {
+    background: url(../images/Серый-фон-однотонный-для-фотошопа-заставка018.jpg);
 }
-.btn_singUp{
+
+.btn_singUp {
     background: lightcyan;
 }
-.btn_reset{
+
+.btn_reset {
     background: lightcyan;
 }

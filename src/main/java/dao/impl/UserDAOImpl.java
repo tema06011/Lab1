@@ -5,52 +5,57 @@ import entity.User;
 import util.DatabaseConnection;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
     private final Connection connection = DatabaseConnection.getConnection();
 
-    @Override
-    public User login(String login, String password) throws SQLException {
-        Statement statement = connection.createStatement();
-        String querySql ="select lastname,name,surname,birthday,cityID,street,numberOfBuilding,phoneNumber,login, " +
-                "password from user where login = ? and password = ? ";
-        PreparedStatement prstatment = connection.prepareStatement(querySql);
-        prstatment.setString(1,"login");
-        prstatment.setString(2,"password");
-       List<User>list=new ArrayList<>();
-        if (list.size() > 0) {
-            return list.get(0);
-        }
-        return null;
-    }
     public void regist(User user) throws SQLException {
 
-        try{
+        try {
             Statement statement = connection.createStatement();
-       // String querySql ="insert into user values (?,?,?,?,?,?,?,?,?)";
-            String querySql="insert into user(lastname,name,surname,birthday,street,number_of_building,phone_number,login,password) values (?,?,?,?,?,?,?,?,?)";
-        PreparedStatement prstatment = connection.prepareStatement(querySql);
-        prstatment.setString(1, user.getLastname());
-        prstatment.setString(2, user.getName());
-        prstatment.setString(3, user.getSurname());
-        prstatment.setDate(4, user.getBirthday());
-     //   prstatment.setLong(5, user.getCityID());
-        prstatment.setString(5,user.getStreet());
-        prstatment.setInt(6, user.getNumberOfBuilding());
-        prstatment.setString(7,user.getPhoneNumber());
-        prstatment.setString(8,user.getLogin());
-        prstatment.setString(9,user.getPassword());
+            String querySql = "insert into user(lastname,name,surname,birthday,street,number_of_building,phone_number,login,password,city_id) values (?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement prstatment = connection.prepareStatement(querySql);
+            prstatment.setString(1, user.getLastname());
+            prstatment.setString(2, user.getName());
+            prstatment.setString(3, user.getSurname());
+            prstatment.setDate(4, user.getBirthday());
+            prstatment.setString(5, user.getStreet());
+            prstatment.setInt(6, user.getNumberOfBuilding());
+            prstatment.setString(7, user.getPhoneNumber());
+            prstatment.setString(8, user.getLogin());
+            prstatment.setString(9, user.getPassword());
+            prstatment.setLong(10, user.getCityID());
             int affectedRows = prstatment.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public User login(String login) throws SQLException {
+        User user = new User();
+        Statement st = connection.createStatement();
+        String querySql = "select * from user where login=? ";
+        PreparedStatement prstatment = connection.prepareStatement(querySql);
+        prstatment.setString(1, login);
+        ResultSet rs = prstatment.executeQuery();
+        while (rs.next()) {
+            user.setId(rs.getLong("id"));
+            user.setLastname(rs.getString("lastname"));
+            user.setName(rs.getString("name"));
+            user.setSurname(rs.getString("surname"));
+            user.setBirthday(rs.getDate("birthday"));
+            user.setCityID(rs.getLong("city_id"));
+            user.setStreet(rs.getString("street"));
+            user.setNumberOfBuilding(rs.getInt("number_of_building"));
+            user.setPhoneNumber(rs.getString("phone_number"));
+            user.setLogin(rs.getString("login"));
+            user.setPassword(rs.getString("password"));
 
+        }
+        return user;
     }
 }

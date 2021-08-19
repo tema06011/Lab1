@@ -2,6 +2,7 @@ package dao.impl;
 
 import DTO.HotelDTO;
 import dao.HotelDAO;
+import entity.Category;
 import entity.Hotel;
 import util.DatabaseConnection;
 
@@ -13,7 +14,7 @@ public class HotelDAOImpl implements HotelDAO {
     private final Connection connection = DatabaseConnection.getConnection();
 
     @Override
-    public Hotel findByID(long id) throws SQLException {
+    public Hotel findHotelNameByID(long id) throws SQLException {
 
         String sql = "SELECT name FROM hotel where id=?";
         PreparedStatement prstatment = connection.prepareStatement(sql);
@@ -29,8 +30,9 @@ public class HotelDAOImpl implements HotelDAO {
         }
         return hotel;
     }
-   @Override
-    public List<Hotel> hotelList(String name) throws SQLException {
+
+    @Override
+    public List<Hotel> getHotelListByCiteName(String name) throws SQLException {
         Statement statement = connection.createStatement();
         String querySql = "SELECT * FROM hotel join city on city.id=hotel.city_id where city.name=?";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
@@ -49,11 +51,14 @@ public class HotelDAOImpl implements HotelDAO {
             hotel.setPhoto(resultSet.getString("photo"));
             hotel.setAbout(resultSet.getString("about"));
             hotelList.add(hotel);
+
+
         }
         return hotelList;
     }
-   @Override
-    public HotelDTO idHotels(long id) throws SQLException {
+
+    @Override
+    public HotelDTO findHotelbyId(long id) throws SQLException {
         Statement statement = connection.createStatement();
         String querySql = "SELECT hotel.name as hotelName, city.name as cityName," +
                 "star_amount,street,number_of_building,phone_number,photo,about " +
@@ -76,20 +81,74 @@ public class HotelDAOImpl implements HotelDAO {
     }
 
     @Override
-    public Hotel getCoordination(long id) throws SQLException {
+    public List<Hotel> getAllHotels() throws SQLException {
         Statement statement = connection.createStatement();
-        String querySql = "SELECT lenght,width FROM hotel where hotel.id=? ";
+        String querySql = "SELECT * from hotel";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
-        prstatment.setLong(1, id);
         ResultSet resultSet = prstatment.executeQuery();
-        Hotel hotelCoordinats=new Hotel();
+        ArrayList<Hotel> allHotelsList = new ArrayList<>();
         while (resultSet.next()) {
-            hotelCoordinats.setLength(resultSet.getFloat("lenght"));
-            hotelCoordinats.setWidth(resultSet.getFloat("width"));
+            Hotel hotel = new Hotel();
+            hotel.setId(resultSet.getLong("id"));
+            hotel.setName(resultSet.getString("name"));
+            hotel.setStarAmount(resultSet.getInt("star_amount"));
+            hotel.setAbout(resultSet.getString("about"));
+            hotel.setPhoto(resultSet.getString("photo"));
+            allHotelsList.add(hotel);
         }
-        return hotelCoordinats;
+        return allHotelsList;
     }
 
+    @Override
+    public void addOwnObject(Hotel hotel) throws SQLException {
+        Statement statement = connection.createStatement();
+        String querySql = "insert into hotel(name,star_amount,street,number_of_building,phone_number,city_id,photo,about) values(?,?,?,?,?,?,?,?)";
+        PreparedStatement prstatment = connection.prepareStatement(querySql);
+        prstatment.setString(1, hotel.getName());
+        prstatment.setInt(2, hotel.getStarAmount());
+        prstatment.setString(3, hotel.getStreet());
+        prstatment.setInt(4, hotel.getNumberOfBuilding());
+        prstatment.setString(5, hotel.getPhoneNumber());
+        prstatment.setLong(6, hotel.getCityID());
+        prstatment.setString(7, hotel.getPhoto());
+        prstatment.setString(8, hotel.getAbout());
+        int affectedRows = prstatment.executeUpdate();
+        if (affectedRows == 0) {
+            throw new SQLException("Creating booking failed, no rows affected.");
+        }
+    }
+
+    @Override
+    public List<Category> getCategoryList() throws SQLException {
+        Statement statement = connection.createStatement();
+        String querySql = "SELECT * from category";
+        PreparedStatement prstatment = connection.prepareStatement(querySql);
+        ResultSet resultSet = prstatment.executeQuery();
+        ArrayList<Category> categoryArrayList = new ArrayList<>();
+        while (resultSet.next()) {
+            Category category = new Category();
+            category.setName(resultSet.getString("name"));
+            category.setId(resultSet.getLong("id"));
+            categoryArrayList.add(category);
+
+        }
+        return categoryArrayList;
+    }
+
+    @Override
+    public long getHotelIdbyHotelName(String name) throws SQLException {
+        Statement statement = connection.createStatement();
+        String querySql = "SELECT id from hotel where name=?";
+        PreparedStatement prstatment = connection.prepareStatement(querySql);
+        prstatment.setString(1, name);
+        ResultSet resultSet = prstatment.executeQuery();
+        long id = 0;
+        while (resultSet.next()) {
+            id = resultSet.getLong("id");
+        }
+
+        return id;
+    }
 }
 
 

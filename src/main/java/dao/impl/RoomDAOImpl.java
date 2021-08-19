@@ -11,9 +11,10 @@ import java.util.List;
 
 public class RoomDAOImpl implements RoomDAO {
     private final Connection connection = DatabaseConnection.getConnection();
+
     @Override
-    public List<Room> roomList(long id) throws SQLException {
-            Statement statement = connection.createStatement();
+    public List<Room> getRoomListByHotelId(long id) throws SQLException {
+        Statement statement = connection.createStatement();
         String querySql = "SELECT category.name as categoryName, room.cost FROM room join hotel on hotel.id=room.hotel_id " +
                 "join category on category.id=room.category_id where hotel.id=?";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
@@ -21,8 +22,8 @@ public class RoomDAOImpl implements RoomDAO {
         ResultSet resultSet = prstatment.executeQuery();
         ArrayList<Room> roomList = new ArrayList<>();
         while (resultSet.next()) {
-            Room room=new Room();
-            Category category=new Category();
+            Room room = new Room();
+            Category category = new Category();
             category.setName(resultSet.getString("categoryName"));
             room.setCategory(category);
             room.setCost(resultSet.getInt("cost"));
@@ -30,4 +31,19 @@ public class RoomDAOImpl implements RoomDAO {
         }
         return roomList;
     }
+
+    @Override
+    public void addRoom(final Room room) throws SQLException {
+        Statement statement = connection.createStatement();
+        String querySql = "insert into room(hotel_id,category_id,cost) values(?,?,?)";
+        PreparedStatement prstatment = connection.prepareStatement(querySql);
+        prstatment.setLong(1, room.getHotelID());
+        prstatment.setLong(2, room.getCategoryID());
+        prstatment.setInt(3, room.getCost());
+        int affectedRows = prstatment.executeUpdate();
+        if (affectedRows == 0) {
+            throw new SQLException("Creating booking failed, no rows affected.");
+        }
+    }
+
 }

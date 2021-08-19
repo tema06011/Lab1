@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Hoboo@localhost" uuid="159dd200-b494-49c1-a180-46edc38b3a05">
+    <data-source source="LOCAL" name="123" uuid="a2424d1f-c6ae-45c3-bf88-2f92b67d2185">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/Hoboo</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3304/hoboo</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <driver-properties>
-        <property name="serverTimezone" value="UTC" />
+        <property name="connectionTimeZone" value="UTC" />
       </driver-properties>
     </data-source>
   </component>

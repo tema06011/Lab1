@@ -1,0 +1,36 @@
+body {
+    background: url(../images/Серый-фон-однотонный-для-фотошопа-заставка018.jpg);
+}
+
+.heead {
+    text-align: center;
+    font-size: 30px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tableBook {
+
+    border: 5px solid black;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    padding-left: 450px;
+    margin-left: 200px;
+    width: 500px;
+    padding-bottom: 200px;
+}
+
+.th {
+    padding: 10px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.td {
+    padding: 10px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.behindfooter {
+    margin-top: 100px;
+}

@@ -8,15 +8,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link href="/css/footer.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css">
 </head>
 <body>
-    <footer class="footer">
-        <div class="py-4">
-            <div class="container text-center">
-                <p class="text-muted mb-0 py-2">© 2021 Template by Marta Bura All rights reserved.</p>
-            </div>
+<footer class="footer">
+    <div class="py-4">
+        <div class="container text-center">
+            <p class="text-muted mb-0 py-2">© 2021 Template by Marta Bura All rights reserved.</p>
         </div>
-    </footer>
+    </div>
+</footer>
 </body>
 </html>

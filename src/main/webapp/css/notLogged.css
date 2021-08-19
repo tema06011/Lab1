@@ -2,10 +2,11 @@ body {
     background: url(../images/Серый-фон-однотонный-для-фотошопа-заставка018.jpg);
 }
 
-.login {
-    background: lightcyan;
+.notLogg {
+    text-align: center;
+    size: 50px;
 }
 
-.reset {
-    background: lightcyan;
+.login {
+    text-align: center;
 }

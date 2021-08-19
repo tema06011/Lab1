@@ -16,7 +16,7 @@
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <link href="<c:url value='../css/hotel.css'/>" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
-    <link href="<c:url value='../css/hotel.css'/>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/hotel.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -41,10 +41,14 @@
         }
     </script>
 </h4>
-<img src="${hotelDTO.photo}" class="pic"/>
+<img src='data:image/jpeg;base64,${hotelDTO.photo}' class="pic"/>
 <h4 class="aboutHotel">${hotelDTO.about}</h4>
 <h5 class="adressHotel">You can find us:</h5>
 <h2 class="adress">${hotelDTO.cityName}, ${hotelDTO.street} ${hotelDTO.numberOfBuilding}</h2>
+<form action="/favorite" method="post">
+    <input type="hidden" name="hotelName" value="${hotelDTO.hotelName}">
+    <button class="button_favorite"><i id="heart" class="far fa-heart"></i></button>
+</form>
 <h3 class="number">You can call us: <br>
     <a href="tel:${hotelDTO.phoneNumber}">${hotelDTO.phoneNumber}</a>
 </h3>
@@ -74,13 +78,8 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <p>
-            <form method="POST" action="/hotel">
-                <label for="lname">Last name:</label><br>
-                <input type="text" id="lname" name="lname"><br><br>
-                <label for="fname">First name:</label><br>
-                <input type="text" id="fname" name="fname"><br>
-                <label for="surname">Surname:</label><br>
-                <input type="text" id="surname" name="surname"><br>
+            <form method="POST" action="/booking">
+                <input type="hidden" name="hotelName" id="hotelName" value="${hotelDTO.hotelName}">
                 <label>Date of entry</label>
                 <input type="date" name="entry" max="3000-12-31"
                        min="1000-01-01" class="form-control">
@@ -88,11 +87,11 @@
                 <input type="date" name="departure" min="1000-01-01"
                        max="3000-12-31" class="form-control">
                 <label>Select Payment Type:</label><br>
-              <select name="paymentType" class="form-control">
-                  <c:forEach var="paymentType" items="${requestScope.paymentList}">
-                      <option>${paymentType.name}</option>
-                  </c:forEach>
-              </select>
+                <select name="paymentType" class="form-control">
+                    <c:forEach var="paymentType" items="${requestScope.paymentList}">
+                        <option>${paymentType.name}</option>
+                    </c:forEach>
+                </select>
                 <label>Select category:</label><br>
                 <select name="category" class="form-control">
                     <c:forEach var="room" items="${requestScope.roomList}">
@@ -134,26 +133,55 @@
             }
         }
     </script>
+
 </div>
 <div class="feedback">
-<form action="/hotel" method="post">
-    <p class="feedback_head"><b>Enter your feedback:</b></p>
-    <div class="rating-area">
-        <input type="radio" id="star-5" name="rating" value="5">
-        <label for="star-5" title="Оценка «5»"></label>
-        <input type="radio" id="star-4" name="rating" value="4">
-        <label for="star-4" title="Оценка «4»"></label>
-        <input type="radio" id="star-3" name="rating" value="3">
-        <label for="star-3" title="Оценка «3»"></label>
-        <input type="radio" id="star-2" name="rating" value="2">
-        <label for="star-2" title="Оценка «2»"></label>
-        <input type="radio" id="star-1" name="rating" value="1">
-        <label for="star-1" title="Оценка «1»"></label>
-    </div>
-    <p><textarea rows="10" cols="45" name="text"></textarea></p>
-    <p><input type="submit" value="Send"></p>
-</form>
+    <form action="/hotel" method="post">
+        <p class="feedback_head"><b>Enter your feedback:</b></p>
+        <input type="hidden" name="hotelName" id="hotelLName" value="${hotelDTO.hotelName}">
+        <div class="rating-area">
+            <input type="radio" id="star-5" name="rating" value="5">
+            <label for="star-5" title="Оценка «5»"></label>
+            <input type="radio" id="star-4" name="rating" value="4">
+            <label for="star-4" title="Оценка «4»"></label>
+            <input type="radio" id="star-3" name="rating" value="3">
+            <label for="star-3" title="Оценка «3»"></label>
+            <input type="radio" id="star-2" name="rating" value="2">
+            <label for="star-2" title="Оценка «2»"></label>
+            <input type="radio" id="star-1" name="rating" value="1">
+            <label for="star-1" title="Оценка «1»"></label>
+        </div>
+        <p><textarea rows="10" cols="45" name="feedback"></textarea></p>
+        <p><input type="submit" value="Send"></p>
+    </form>
 </div>
-<!-- <jsp:include page="footer.jsp"/>-->
+<div class="usersFeedback">
+    <div class="headFeedback">
+        <strong>Feedback</strong>
+    </div>
+    <c:choose>
+        <c:when test="${empty feedbackList }">
+            <p class="no_comments">No comments...</p>
+
+        </c:when>
+        <c:otherwise>
+            <div class="starFeedback">
+            <c:forEach var="feedback" items="${feedbackList}">
+                <script>
+                    for (var i = 1; i <=${feedback.starAmount}; i++) {
+                        document.write('<i  class="fas fa-star fa-1x" ></i>');
+                    }
+                </script>
+                </div>
+                <div class="feedbackAbout">
+                        ${feedback.feedback}
+                </div>
+            </c:forEach>
+
+        </c:otherwise>
+    </c:choose>
+
+</div>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

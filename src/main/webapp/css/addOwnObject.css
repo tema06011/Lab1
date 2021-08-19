@@ -2,10 +2,6 @@ body {
     background: url(../images/Серый-фон-однотонный-для-фотошопа-заставка018.jpg);
 }
 
-.login {
-    background: lightcyan;
-}
-
-.reset {
-    background: lightcyan;
+.tableAddOwnObject {
+    margin-bottom: 100px;
 }

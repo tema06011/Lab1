@@ -2,9 +2,6 @@ package dao.impl;
 
 import dao.CityDAO;
 import entity.City;
-
-
-import entity.Hotel;
 import util.DatabaseConnection;
 
 import java.sql.*;
@@ -26,10 +23,9 @@ public class CityDAOImpl implements CityDAO {
         }
         return cityList;
     }
-    public Long city_id(String name) throws SQLException{
+    public Long getCityIdbyName(String name) throws SQLException{
 
         Connection connection = DatabaseConnection.getConnection();
-        Statement statement = connection.createStatement();
         String querySql = "SELECT id FROM city where city.name=?";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
         prstatment.setString(1,name);
@@ -37,7 +33,7 @@ public class CityDAOImpl implements CityDAO {
          Long cityId=null;
 
         while (resultSet.next()) {
-          cityId= resultSet.getLong("city_id");
+          cityId= resultSet.getLong("id");
         }
         return cityId;
     }

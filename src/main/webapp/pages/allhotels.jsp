@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Hotels page</title>
+    <meta charset="UTF-8">
+    <title>All Hotels</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/hotelList.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -20,13 +21,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-
 </head>
-
 <body>
 <jsp:include page="header.jsp"/>
-<div class="shadoww">
-    <c:forEach var="hotel" items="${hotelList}">
+<c:forEach var="hotel" items="${allHotelsList}">
+    <div class="shadoww">
         <img src='data:image/jpeg;base64,${hotel.photo}' class="pic"/>
         <h1 class="zagolovok">${hotel.name}
             <form action="${pageContext.request.contextPath}/hotel" method="post">
@@ -44,8 +43,8 @@
 
 
         </h3>
-    </c:forEach>
-</div>
+    </div>
+</c:forEach>
 <jsp:include page="footer.jsp"/>
 <br>
 </body>
