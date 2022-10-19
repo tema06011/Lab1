@@ -14,17 +14,16 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 
     @Override
     public List<HotelDTO> getFavoriteListByUserId(final long userID) throws SQLException {
-        Statement statement = connection.createStatement();
-        String querySql =" select  h.name as hotelName, h.star_amount as starAmount, h.id" +
+        String querySql = " select  h.name as hotelName, h.star_amount as starAmount, h.id" +
                 " from favorite f" +
                 " join hotel h on f.hotelID = h.id" +
                 " where f.userID =?";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
         prstatment.setLong(1, userID);
         ResultSet resultSet = prstatment.executeQuery();
-        ArrayList<HotelDTO> favoriteList=new ArrayList<>();
+        ArrayList<HotelDTO> favoriteList = new ArrayList<>();
         while (resultSet.next()) {
-            HotelDTO hotelDTO=new HotelDTO();
+            HotelDTO hotelDTO = new HotelDTO();
             hotelDTO.setId(resultSet.getLong("id"));
             hotelDTO.setHotelName(resultSet.getString("hotelName"));
             hotelDTO.setStarAmount(resultSet.getInt("starAmount"));
@@ -35,11 +34,10 @@ public class FavoriteDAOImpl implements FavoriteDAO {
 
     @Override
     public void saveFavorite(final Favorite favorite) throws SQLException {
-        Statement statement = connection.createStatement();
         String querySql = "INSERT INTO favorite(hotelID,userID) values(?,?)";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
-        prstatment.setLong(1, favorite.getHotelID());
-        prstatment.setLong(2, favorite.getUserID());
+        prstatment.setLong(1, favorite.getHotelId());
+        prstatment.setLong(2, favorite.getUserId());
         int affectedRows = prstatment.executeUpdate();
         if (affectedRows == 0) {
             throw new SQLException("Creating booking failed, no rows affected.");

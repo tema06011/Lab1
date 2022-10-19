@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <th class="th">Payment type</th>
-            <td class="td">${bookingDTO.paymentTypeID}</td>
+            <td class="td">${bookingDTO.paymentTypeId}</td>
         </tr>
         <tr>
             <th class="th">Price for night</th>

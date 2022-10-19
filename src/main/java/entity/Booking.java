@@ -4,10 +4,10 @@ import java.sql.Date;
 
 public class Booking {
     private long id;
-    private long hotelID;
-    private long roomID;
-    private long userID;
-    private long paymentTypeID;
+    private long hotelId;
+    private long roomId;
+    private long userId;
+    private long paymentTypeId;
     private Date start;
 
     public Date getStart() {
@@ -36,36 +36,36 @@ public class Booking {
         this.id = id;
     }
 
-    public long getHotelID() {
-        return hotelID;
+    public long getHotelId() {
+        return hotelId;
     }
 
-    public void setHotelID(long hotelID) {
-        this.hotelID = hotelID;
+    public void setHotelId(long hotelId) {
+        this.hotelId = hotelId;
     }
 
-    public long getRoomID() {
-        return roomID;
+    public long getRoomId() {
+        return roomId;
     }
 
-    public void setRoomID(long roomID) {
-        this.roomID = roomID;
+    public void setRoomId(long roomId) {
+        this.roomId = roomId;
     }
 
-    public long getUserID() {
-        return userID;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public long getPaymentTypeID() {
-        return paymentTypeID;
+    public long getPaymentTypeId() {
+        return paymentTypeId;
     }
 
-    public void setPaymentTypeID(long paymentTypeID) {
-        this.paymentTypeID = paymentTypeID;
+    public void setPaymentTypeId(long paymentTypeId) {
+        this.paymentTypeId = paymentTypeId;
     }
 
 }

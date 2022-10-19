@@ -2,9 +2,12 @@ package entity;
 
 public class Feedback {
     private long id;
+
     private String feedback;
+
     private int starAmount;
-    private long hotelID;
+
+    private long hotelId;
 
     public long getId() {
         return id;
@@ -30,11 +33,11 @@ public class Feedback {
         this.starAmount = starAmount;
     }
 
-    public long getHotelID() {
-        return hotelID;
+    public long getHotelId() {
+        return hotelId;
     }
 
-    public void setHotelID(long hotelID) {
-        this.hotelID = hotelID;
+    public void setHotelId(long hotelId) {
+        this.hotelId = hotelId;
     }
 }

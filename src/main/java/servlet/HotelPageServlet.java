@@ -1,16 +1,14 @@
 package servlet;
 
-import DTO.BookingDTO;
-import dao.BookingDAO;
-import dao.FeedbackDAO;
-import dao.HotelDAO;
-import dao.RoomDAO;
-import dao.impl.BookingDAOImpl;
-import dao.impl.FeedbackDAOImpl;
-import dao.impl.HotelDAOImpl;
-import dao.impl.RoomDAOImpl;
 import entity.Feedback;
-import entity.Hotel;
+import service.BookingService;
+import service.FeedbackService;
+import service.HotelService;
+import service.RoomService;
+import service.impl.BookingServiceImpl;
+import service.impl.FeedbackServiceImpl;
+import service.impl.HotelServiceImpl;
+import service.impl.RoomServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,62 +16,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet("/hotel")
 public class HotelPageServlet extends HttpServlet {
-    HotelDAO hotelDAO = new HotelDAOImpl();
-    RoomDAO roomDAO = new RoomDAOImpl();
-    BookingDAO bookingDAO = new BookingDAOImpl();
-    private BookingDTO bookingDTO;
-    Hotel hotel = new Hotel();
+    private final HotelService hotelService = new HotelServiceImpl();
+    private final RoomService roomService = new RoomServiceImpl();
+    private final BookingService bookingService = new BookingServiceImpl();
     private final Feedback feedback = new Feedback();
-    private final FeedbackDAO feedbackDAO = new FeedbackDAOImpl();
+    private final FeedbackService feedbackService = new FeedbackServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String strId = req.getParameter("id");
-        long id = 0;
-        id = Long.parseLong(strId);
-        System.out.println(id);
-        try {
-            req.setAttribute("hotelDTO", hotelDAO.findHotelbyId(id));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        try {
-            req.setAttribute("roomList", roomDAO.getRoomListByHotelId(id));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        try {
-            req.setAttribute("paymentList", bookingDAO.paymentList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        try {
-            req.setAttribute("feedbackList", feedbackDAO.getAllFeedbacksByHotelId(id));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        long id = Long.parseLong(req.getParameter("id"));
+
+        req.setAttribute("hotelDTO", hotelService.findHotelbyId(id));
+        req.setAttribute("roomList", roomService.getRoomListByHotelId(id));
+        req.setAttribute("paymentList", bookingService.paymentList());
+        req.setAttribute("feedbackList", feedbackService.getAllFeedbacksByHotelId(id));
+
         getServletContext().getRequestDispatcher("/pages/hotel.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         feedback.setFeedback(req.getParameter("feedback"));
         feedback.setStarAmount(Integer.parseInt(req.getParameter("rating")));
-        try {
-            feedback.setHotelID(hotelDAO.getHotelIdbyHotelName(req.getParameter("hotelName")));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        feedback.setHotelId(hotelService.getHotelIdbyHotelName(req.getParameter("hotelName")));
+        feedbackService.saveFeedback(feedback);
 
-        try {
-            feedbackDAO.saveFeedback(feedback);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 }
 

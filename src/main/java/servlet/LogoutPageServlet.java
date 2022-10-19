@@ -13,7 +13,7 @@ public class LogoutPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false); //TODO WHAT DOES FALSE HERE!?
         session.invalidate();
         System.out.println("successful logout");
         response.sendRedirect("/");

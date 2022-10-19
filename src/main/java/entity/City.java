@@ -2,6 +2,7 @@ package entity;
 
 public class City {
     private long id;
+
     private String name;
 
     public long getId() {

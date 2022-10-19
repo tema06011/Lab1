@@ -11,16 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingDAOImpl implements BookingDAO {
+    public static final String REGEX_FOR_ALL_ALPHABETIC_SYMBOLS = "[^a-zA-Z]";
+    public static final String BLANK_STRING = "";
     private final Connection connection = DatabaseConnection.getConnection();
 
     @Override
-    public BookingDTO getBookingByHotelId(long id) throws SQLException {
-        Statement statement = connection.createStatement();
+    public BookingDTO getBookingByHotelId(final long id) throws SQLException {
         String querySql = "SELECT user.lastname,user.name as userName," +
                 "user.surname, user.id as userId,booking.start,booking.end," +
                 "category.name as categoryName,room.cost" +
                 "FROM user join booking on user.id=booking.user_id," +
-                "category join room on category.id=room.category_id where hotel.id=?";
+                "category join room on category.id=room.category_id " +
+                "where hotel.id=?";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
         prstatment.setLong(1, id);
         ResultSet resultSet = prstatment.executeQuery();
@@ -32,12 +34,10 @@ public class BookingDAOImpl implements BookingDAO {
             bookingDTO.setCost(resultSet.getInt("cost"));
         }
         return bookingDTO;
-
     }
 
     @Override
     public List<PaymentType> paymentList() throws SQLException {
-        Statement statement = connection.createStatement();
         String querySql = "SELECT id,name FROM payment_type ";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
         ResultSet resultSet = prstatment.executeQuery();
@@ -52,29 +52,28 @@ public class BookingDAOImpl implements BookingDAO {
     }
 
     @Override
-    public void saveBooking(Booking booking) throws SQLException {
-        Statement statement = connection.createStatement();
-        String querySql = "insert into booking(hotel_id,room_id,user_id,start,end,payment_type_id) values (?,?,?,?,?,?)";
-        PreparedStatement prstatment = connection.prepareStatement(querySql);
-        prstatment.setLong(1, booking.getHotelID());
-        prstatment.setLong(2, booking.getRoomID());
-        prstatment.setLong(3, booking.getUserID());
+    public void saveBooking(final Booking booking) throws SQLException {
+        final String querySql = "insert into booking(hotel_id,room_id,user_id,start,end,payment_type_id)" +
+                " values (?,?,?,?,?,?)";
+        final PreparedStatement prstatment = connection.prepareStatement(querySql);
+        prstatment.setLong(1, booking.getHotelId());
+        prstatment.setLong(2, booking.getRoomId());
+        prstatment.setLong(3, booking.getUserId());
         prstatment.setDate(4, booking.getStart());
         prstatment.setDate(5, booking.getEnd());
-        prstatment.setLong(6, booking.getPaymentTypeID());
+        prstatment.setLong(6, booking.getPaymentTypeId());
         int affectedRows = prstatment.executeUpdate();
         if (affectedRows == 0) {
             throw new SQLException("Creating booking failed, no rows affected.");
         }
     }
 
-    public Long getHotelIDbyName(String name) throws SQLException {
+    public Long getHotelIDbyName(final String name) throws SQLException {
         String querySql = "SELECT id FROM hotel where name=?";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
         prstatment.setString(1, name);
         ResultSet resultSet = prstatment.executeQuery();
         Long hotelId = null;
-
         while (resultSet.next()) {
             hotelId = resultSet.getLong("id");
         }
@@ -83,26 +82,23 @@ public class BookingDAOImpl implements BookingDAO {
 
     @Override
     public Long getRoomIDbyCategoryName(String name) throws SQLException {
-        String querySql = "SELECT room.cost,room.id , category.id as categoryId, category.name FROM category join room on category.id=room.category_id where category.name=? limit 1";
-
+        String querySql = "SELECT room.cost,room.id, category.id as categoryId, category.name" +
+                " FROM category" +
+                " join room on category.id=room.category_id" +
+                " where category.name=? limit 1";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
-        name = name.replaceAll("[^a-zA-Z]", "");
-        name = name.toLowerCase();
-
+        name = name.replaceAll(REGEX_FOR_ALL_ALPHABETIC_SYMBOLS, BLANK_STRING).toLowerCase();
         prstatment.setString(1, name);
-
         ResultSet resultSet = prstatment.executeQuery();
         Long roomId = null;
-
         while (resultSet.next()) {
             roomId = resultSet.getLong("id");
         }
         return roomId;
-
     }
 
     @Override
-    public Long getPaymentTypeIDbyName(String name) throws SQLException {
+    public Long getPaymentTypeIDbyName(final String name) throws SQLException {
         String querySql = "SELECT id FROM payment_type where name=?";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
         prstatment.setString(1, name);
@@ -116,7 +112,6 @@ public class BookingDAOImpl implements BookingDAO {
 
     @Override
     public List<BookingDTO> getBookingListByUserId(final Long userID) throws SQLException {
-        Statement statement = connection.createStatement();
         String querySql = "select b.start, b.end, pt.name as paymentTypeID, c.name as categoryName, r.cost, h.name as hotelName" +
                 " from booking b" +
                 "         join room r on r.id = b.room_id" +
@@ -131,7 +126,7 @@ public class BookingDAOImpl implements BookingDAO {
         while (resultSet.next()) {
             BookingDTO bookingDTO = new BookingDTO();
             bookingDTO.setHotelName(resultSet.getString("hotelName"));
-            bookingDTO.setPaymentTypeID(resultSet.getString("paymentTypeID"));
+            bookingDTO.setPaymentTypeId(resultSet.getString("paymentTypeID"));
             bookingDTO.setStart(resultSet.getDate("start"));
             bookingDTO.setEnd(resultSet.getDate("end"));
             bookingDTO.setCategoryName(resultSet.getString("categoryName"));
@@ -140,5 +135,4 @@ public class BookingDAOImpl implements BookingDAO {
         }
         return bookingList;
     }
-
 }

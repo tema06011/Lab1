@@ -2,8 +2,11 @@ package entity;
 
 public class Room {
     private long id;
-    private long hotelID;
-    private long categoryID;
+
+    private long hotelId;
+
+    private long categoryId;
+
     private int cost;
 
     private Category category;
@@ -24,20 +27,20 @@ public class Room {
         this.id = id;
     }
 
-    public long getHotelID() {
-        return hotelID;
+    public long getHotelId() {
+        return hotelId;
     }
 
-    public void setHotelID(long hotelID) {
-        this.hotelID = hotelID;
+    public void setHotelId(long hotelId) {
+        this.hotelId = hotelId;
     }
 
-    public long getCategoryID() {
-        return categoryID;
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryID(long categoryID) {
-        this.categoryID = categoryID;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
     public int getCost() {
         return cost;

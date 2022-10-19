@@ -9,11 +9,11 @@ import java.sql.*;
 public class UserDAOImpl implements UserDAO {
     private final Connection connection = DatabaseConnection.getConnection();
 
-    public void regist(User user) throws SQLException {
-
+    public void regist(final User user){
         try {
-            Statement statement = connection.createStatement();
-            String querySql = "insert into user(lastname,name,surname,birthday,street,number_of_building,phone_number,login,password,city_id) values (?,?,?,?,?,?,?,?,?,?)";
+            String querySql = "insert into user(lastname,name,surname,birthday,street,number_of_building," +
+                    "phone_number,login,password,city_id)" +
+                    " values (?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement prstatment = connection.prepareStatement(querySql);
             prstatment.setString(1, user.getLastname());
             prstatment.setString(2, user.getName());
@@ -24,20 +24,18 @@ public class UserDAOImpl implements UserDAO {
             prstatment.setString(7, user.getPhoneNumber());
             prstatment.setString(8, user.getLogin());
             prstatment.setString(9, user.getPassword());
-            prstatment.setLong(10, user.getCityID());
+            prstatment.setLong(10, user.getCityId());
             int affectedRows = prstatment.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public User login(String login) throws SQLException {
+    public User login(final String login) throws SQLException {
         User user = new User();
-        Statement st = connection.createStatement();
         String querySql = "select * from user where login=? ";
         PreparedStatement prstatment = connection.prepareStatement(querySql);
         prstatment.setString(1, login);
@@ -48,13 +46,12 @@ public class UserDAOImpl implements UserDAO {
             user.setName(rs.getString("name"));
             user.setSurname(rs.getString("surname"));
             user.setBirthday(rs.getDate("birthday"));
-            user.setCityID(rs.getLong("city_id"));
+            user.setCityId(rs.getLong("city_id"));
             user.setStreet(rs.getString("street"));
             user.setNumberOfBuilding(rs.getInt("number_of_building"));
             user.setPhoneNumber(rs.getString("phone_number"));
             user.setLogin(rs.getString("login"));
             user.setPassword(rs.getString("password"));
-
         }
         return user;
     }

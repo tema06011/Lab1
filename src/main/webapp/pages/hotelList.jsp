@@ -25,8 +25,8 @@
 
 <body>
 <jsp:include page="header.jsp"/>
-<div class="shadoww">
-    <c:forEach var="hotel" items="${hotelList}">
+<c:forEach var="hotel" items="${hotelList}">
+    <div class="shadoww">
         <img src='data:image/jpeg;base64,${hotel.photo}' class="pic"/>
         <h1 class="zagolovok">${hotel.name}
             <form action="${pageContext.request.contextPath}/hotel" method="post">
@@ -44,8 +44,8 @@
 
 
         </h3>
-    </c:forEach>
-</div>
+    </div>
+</c:forEach>
 <jsp:include page="footer.jsp"/>
 <br>
 </body>

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface FavoriteDAO {
-    public List<HotelDTO> getFavoriteListByUserId(long userID) throws SQLException;
+    List<HotelDTO> getFavoriteListByUserId(long userID) throws SQLException;
 
-    public void saveFavorite(Favorite favorite) throws SQLException;
+    void saveFavorite(Favorite favorite) throws SQLException;
 }

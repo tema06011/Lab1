@@ -5,23 +5,33 @@ import java.util.Date;
 
 public class User {
     private long id;
+
     private String lastname;
+
     private String name;
-    private String  surname;
+
+    private String surname;
+
     private Date birthday;
-    private Long cityID;
+
+    private Long cityId;
+
     private String street;
+
     private int numberOfBuilding;
+
     private String phoneNumber;
+
     private String login;
+
     private String password;
 
-    public Long getCityID() {
-        return cityID;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setCityID(Long cityID) {
-        this.cityID = cityID;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public String getLogin() {

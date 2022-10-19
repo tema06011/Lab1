@@ -1,11 +1,10 @@
 package servlet;
 
-import dao.CityDAO;
-import dao.UserDAO;
-import dao.impl.CityDAOImpl;
-import dao.impl.UserDAOImpl;
 import entity.User;
-
+import service.CityService;
+import service.UserService;
+import service.impl.CityServiceImpl;
+import service.impl.UserServiceImpl;
 import util.HashPasswordUtil;
 
 import javax.servlet.ServletException;
@@ -15,11 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.*;
+import java.util.Objects;
 
 @WebServlet("/login")
 public class LoginPageServlet extends HttpServlet {
-    CityDAO cityDAO = new CityDAOImpl();
+    public static final int NOT_AUTHORIZED_HTTP_EXCEPTION = 401;
+    public static final int FORBIDDEN_HTTP_EXCEPTION = 403;
+    private final  CityService cityService = new CityServiceImpl();
+    private final UserService userService = new UserServiceImpl();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -29,35 +31,29 @@ public class LoginPageServlet extends HttpServlet {
     }
 
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        try {
-            UserDAO userDAO = new UserDAOImpl();
-            User user = userDAO.login(login);
-            if (user.getLogin() != null) {
 
-                boolean validPassword = HashPasswordUtil.checkPassword(password, user.getPassword());
+        User user = userService.login(login);
+        if (Objects.nonNull(user.getLogin())) {
+            boolean validPassword = HashPasswordUtil.checkPassword(password, user.getPassword());
 
-                if (validPassword) {
-                    HttpSession session = req.getSession();
-                    session.setAttribute("login", login);
-                    session.setAttribute("id", user.getId());
-                    System.out.println("successful login");
-                    try {
-                        req.setAttribute("cityList", cityDAO.getAllCities());
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-                    getServletContext().getRequestDispatcher("/pages/index.jsp").forward(req, resp);
-                } else {
-                    resp.sendError(401);
-                }
+            if (validPassword) {
+                HttpSession session = req.getSession();
+                session.setAttribute("login", login);
+                session.setAttribute("id", user.getId());
+                System.out.println("successful login");
+
+                req.setAttribute("cityList", cityService.getAllCities());
+
+                getServletContext().getRequestDispatcher("/pages/index.jsp").forward(req, resp);
             } else {
-                resp.sendError(403);
+                resp.sendError(NOT_AUTHORIZED_HTTP_EXCEPTION);
             }
-        } catch (SQLException | ServletException e) {
-            e.printStackTrace();
+        } else {
+            resp.sendError(FORBIDDEN_HTTP_EXCEPTION);
+
         }
     }
 }

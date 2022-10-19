@@ -2,19 +2,17 @@ package entity;
 
 public class Favorite {
     private long id;
-    private long hotelID;
-    private long userID;
 
-    public Favorite() {
+    private long hotelId;
+
+    private long userId;
+
+    public long getHotelId() {
+        return hotelId;
     }
 
-
-    public long getHotelID() {
-        return hotelID;
-    }
-
-    public void setHotelID(final long hotelID) {
-        this.hotelID = hotelID;
+    public void setHotelId(final long hotelId) {
+        this.hotelId = hotelId;
     }
 
     public long getId() {
@@ -25,11 +23,11 @@ public class Favorite {
         this.id = id;
     }
 
-    public long getUserID() {
-        return userID;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUserID(final long userID) {
-        this.userID = userID;
+    public void setUserId(final long userId) {
+        this.userId = userId;
     }
 }

@@ -45,7 +45,7 @@
 <h4 class="aboutHotel">${hotelDTO.about}</h4>
 <h5 class="adressHotel">You can find us:</h5>
 <h2 class="adress">${hotelDTO.cityName}, ${hotelDTO.street} ${hotelDTO.numberOfBuilding}</h2>
-<form action="/favorite" method="post">
+<form action="/favorite" >
     <input type="hidden" name="hotelName" value="${hotelDTO.hotelName}">
     <button class="button_favorite"><i id="heart" class="far fa-heart"></i></button>
 </form>
@@ -78,7 +78,7 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <p>
-            <form method="POST" action="/booking">
+            <form method="post" action="/booking">
                 <input type="hidden" name="hotelName" id="hotelName" value="${hotelDTO.hotelName}">
                 <label>Date of entry</label>
                 <input type="date" name="entry" max="3000-12-31"

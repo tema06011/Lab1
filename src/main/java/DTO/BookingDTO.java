@@ -7,7 +7,7 @@ public class BookingDTO {
     private long userId;
     private Date start;
     private Date end;
-    private String paymentTypeID;
+    private String paymentTypeId;
     private String categoryName;
     private String hotelName;
     private int cost;
@@ -28,12 +28,12 @@ public class BookingDTO {
         this.userId = userId;
     }
 
-    public String getPaymentTypeID() {
-        return paymentTypeID;
+    public String getPaymentTypeId() {
+        return paymentTypeId;
     }
 
-    public void setPaymentTypeID(String paymentTypeID) {
-        this.paymentTypeID = paymentTypeID;
+    public void setPaymentTypeId(String paymentTypeId) {
+        this.paymentTypeId = paymentTypeId;
     }
 
     public Date getStart() {
@@ -53,11 +53,11 @@ public class BookingDTO {
     }
 
     public String getPaymentType() {
-        return paymentTypeID;
+        return paymentTypeId;
     }
 
     public void setPaymentType(String paymentType) {
-        this.paymentTypeID = paymentTypeID;
+        this.paymentTypeId = paymentTypeId;
     }
 
     public String getCategoryName() {

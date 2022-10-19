@@ -1,15 +1,14 @@
 package servlet;
 
-import dao.CityDAO;
-import dao.HotelDAO;
-import dao.RoomDAO;
-import dao.impl.CityDAOImpl;
-import dao.impl.HotelDAOImpl;
-import dao.impl.RoomDAOImpl;
 import entity.Category;
 import entity.Hotel;
 import entity.Room;
-import org.apache.commons.compress.utils.IOUtils;
+import service.CityService;
+import service.HotelService;
+import service.RoomService;
+import service.impl.CityServiceImpl;
+import service.impl.HotelServiceImpl;
+import service.impl.RoomServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -18,20 +17,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 
 @MultipartConfig
 @WebServlet("/addOwnObject")
 public class AddOwnObjectPageServlet extends HttpServlet {
-    CityDAO cityDAO = new CityDAOImpl();
-    HotelDAO hotelDAO = new HotelDAOImpl();
-    RoomDAO roomDAO = new RoomDAOImpl();
+    private final RoomService roomService = new RoomServiceImpl();
+    private final CityService cityService = new CityServiceImpl();
+    private final HotelService hotelService = new HotelServiceImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,75 +45,36 @@ public class AddOwnObjectPageServlet extends HttpServlet {
         hotel.setPhoneNumber(phoneNumber);
         String about = request.getParameter("about");
         hotel.setAbout(about);
+        long cityID = cityService.getCityIdbyName(request.getParameter("cityName"));
+        hotel.setCityId(cityID);
 
-
-        try {
-            long cityID = cityDAO.getCityIdbyName(request.getParameter("cityName"));
-            hotel.setCityID(cityID);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-
-        Part filePart = request.getPart("photo"); // Retrieves <input type="file" name="file">
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
-        InputStream fileContent = filePart.getInputStream();
+        Part filePart = request.getPart("photo");
         hotel.setPhoto(Base64.getEncoder().encodeToString(filePart.getInputStream().readAllBytes()));
-        try {
-            hotelDAO.addOwnObject(hotel);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        try {
-            room.setHotelID(hotelDAO.getHotelIdbyHotelName(name));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        hotelService.addOwnObject(hotel);
+
+        room.setHotelId(hotelService.getHotelIdbyHotelName(name));
+
+        List<Category> categoryList = hotelService.getCategoryList();
+        for (Category cl : categoryList) {
+            String cost = request.getParameter("cost" + cl.getName());
+            room.setCategoryId(cl.getId());
+            if (!cost.equals("")) {
+                room.setCost(Integer.parseInt(cost));
+                roomService.addRoom(room);
+            }
         }
 
-        try {
-            List<Category> categoryList = hotelDAO.getCategoryList();
-            for (Category cl : categoryList) {
-                String cost = request.getParameter("cost" + cl.getName());
-                room.setCategoryID(cl.getId());
-                if (!cost.equals("")) {
-                    room.setCost(Integer.parseInt(cost));
-                    roomDAO.addRoom(room);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        getServletContext().getRequestDispatcher("/pages/index.jsp").forward(request, response);
+        response.sendRedirect("/");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            req.setAttribute("cityList", cityDAO.getAllCities());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        try {
-            req.setAttribute("categoryArrayList", hotelDAO.getCategoryList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
+        req.setAttribute("cityList", cityService.getAllCities());
+
+        req.setAttribute("categoryArrayList", hotelService.getCategoryList());
 
         getServletContext().getRequestDispatcher("/pages/addOwnObject.jsp").forward(req, resp);
 
-    }
-
-
-    public String img2Text(String photo) {
-        String base64 = "";
-        try {
-            InputStream iSteamReader = new FileInputStream(photo);
-            byte[] imageBytes = IOUtils.toByteArray(iSteamReader);
-            base64 = Base64.getEncoder().encodeToString(imageBytes);
-            System.out.println(base64);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return base64;
     }
 }

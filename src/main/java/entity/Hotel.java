@@ -4,14 +4,12 @@ public class Hotel {
     private long id;
     private String name;
     private int starAmount;
-    private Long cityID;
+    private Long cityId;
     private String street;
     private int numberOfBuilding;
     private String phoneNumber;
     private String photo;
     private String about;
-
-
 
     public String getAbout() {
         return about;
@@ -53,12 +51,12 @@ public class Hotel {
         this.starAmount = starAmount;
     }
 
-    public Long getCityID() {
-        return cityID;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setCityID(Long cityID) {
-        this.cityID = cityID;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public String getStreet() {
